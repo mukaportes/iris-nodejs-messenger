@@ -13,11 +13,14 @@ class MessageBus {
   /**
    * @param {Array} friendlyNamesToArn - A map of the friendly queue name to ARN
    * @param {String} compressEngine - String defining the compress engine
+   * @param {Object} credentials - Optional credentials to overwirte the AWS
+   * default ones
    */
-  constructor(friendlyNamesToArn, compressEngine) {
+  constructor(friendlyNamesToArn, compressEngine, credentials) {
     /** @private */
     this.friendlyNamesToArn = friendlyNamesToArn;
     this.compressEngine = compressEngine || process.env.IRIS_COMPRESS_ENGINE;
+    this.credentials = credentials;
   }
 
   /**
@@ -27,7 +30,7 @@ class MessageBus {
    */
   // eslint-disable-next-line max-lines-per-function, max-statements
   async publish(friendlyName, message) {
-    const sns = ClientFactory.create('sns');
+    const sns = ClientFactory.create('sns', this.credentials);
     const logger = Logger.current().createChildLogger('message-bus:send');
 
     const wrappedCorrelationIdMessage = CorrelationEngine.wrapMessage(message);

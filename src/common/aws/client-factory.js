@@ -13,10 +13,11 @@ function endpointOptions(endpoint) {
 }
 
 module.exports = {
-  create(service) {
+  create(service, credentials = {}) {
     return new AWS[service.toUpperCase()]({
       ...endpointOptions(process.env[`${service.toUpperCase()}_ENDPOINT`]),
       region: process.env.AWS_REGION,
+      ...credentials,
     });
   },
 };

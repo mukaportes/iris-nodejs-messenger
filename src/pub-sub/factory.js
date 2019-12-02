@@ -10,12 +10,12 @@ class MessageBusFactory {
    * Pass the developmentMode option with a truthy value to use the message queue locally
    * @param {Object} options - Optional creation options
    */
-  static create(options = {}) {
+  static create(options = {}, credentials) {
     if (options.developmentMode) {
       return MessageBusFactory.createAmqpBus(options.amqpOptions || {});
     }
 
-    return MessageBusFactory.createAwsSnsBus(options.awsSnsOptions || {});
+    return MessageBusFactory.createAwsSnsBus(options.awsSnsOptions || {}, credentials);
   }
 
   /** @private */
