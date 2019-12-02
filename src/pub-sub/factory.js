@@ -24,8 +24,8 @@ class MessageBusFactory {
   }
 
   /** @private */
-  static createAwsSnsBus({ friendlyNamesToArn }) {
-    return new AwsSnsMessageBus(friendlyNamesToArn);
+  static createAwsSnsBus({ friendlyNamesToArn }, credentials) {
+    return new AwsSnsMessageBus(friendlyNamesToArn, undefined, credentials);
   }
 }
 
